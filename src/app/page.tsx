@@ -1,67 +1,44 @@
-import Image from "next/image";
+import { Button } from "@/components/ui/Button";
+import { FlowBackdrop } from "@/components/FlowBackdrop";
 
-export default function Home() {
+export default function LandingPage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <div className="relative flex min-h-full flex-1 flex-col overflow-hidden">
+      <FlowBackdrop />
+      <main className="relative z-10 mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center px-5 py-16 sm:px-8">
+        <div className="max-w-xl motion-safe:animate-[rise_0.7s_ease-out]">
+          <p className="font-[family-name:var(--font-display)] text-5xl tracking-tight text-[var(--ink)] sm:text-7xl">
+            사이
           </p>
+          <h1 className="mt-6 max-w-md text-2xl font-semibold leading-snug tracking-tight text-[var(--ink)] sm:text-3xl">
+            둘 사이, 한 달의 돈을 함께 적어요
+          </h1>
+          <p className="mt-4 max-w-md text-[16px] leading-relaxed text-[var(--ink-muted)]">
+            공용과 개인을 나눠 입력하고, 같이 보거나 따로 볼 수 있는 월별 가계부입니다.
+          </p>
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <Button href="/signup" className="sm:min-w-[160px]">
+              시작하기
+            </Button>
+            <Button href="/login" variant="secondary" className="sm:min-w-[140px]">
+              로그인
+            </Button>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="mt-16 grid max-w-2xl gap-6 border-t border-[var(--line)] pt-8 text-sm text-[var(--ink-muted)] motion-safe:animate-[soft-in_1s_ease-out] sm:grid-cols-3">
+          <div>
+            <p className="font-semibold text-[var(--ink)]">공용 / 개인</p>
+            <p className="mt-1 leading-relaxed">입력할 때 한 번만 고르면 됩니다.</p>
+          </div>
+          <div>
+            <p className="font-semibold text-[var(--ink)]">가정 초대</p>
+            <p className="mt-1 leading-relaxed">코드로 배우자를 초대하고, 다른 부부는 각자 가정을 만듭니다.</p>
+          </div>
+          <div>
+            <p className="font-semibold text-[var(--ink)]">월별 보기</p>
+            <p className="mt-1 leading-relaxed">필터로 전체·공용·나만 전환합니다.</p>
+          </div>
         </div>
       </main>
     </div>

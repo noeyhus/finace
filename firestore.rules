@@ -1,0 +1,57 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isSelf(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    function householdMembers(householdId) {
+      return get(/databases/$(database)/documents/households/$(householdId)).data.memberIds;
+    }
+
+    function isHouseholdMember(householdId) {
+      return signedIn() && request.auth.uid in householdMembers(householdId);
+    }
+
+    match /users/{userId} {
+      allow read, create, update: if isSelf(userId);
+    }
+
+    match /inviteCodes/{code} {
+      allow read: if signedIn();
+      allow create: if signedIn();
+    }
+
+    match /households/{householdId} {
+      allow create: if signedIn()
+        && request.resource.data.createdBy == request.auth.uid
+        && request.auth.uid in request.resource.data.memberIds;
+
+      allow read: if isHouseholdMember(householdId);
+
+      // 멤버 수정 또는 초대 코드로 본인만 추가
+      allow update: if signedIn() && (
+        request.auth.uid in resource.data.memberIds
+        || (
+          !(request.auth.uid in resource.data.memberIds)
+          && request.auth.uid in request.resource.data.memberIds
+          && request.resource.data.memberIds.size() == resource.data.memberIds.size() + 1
+          && request.resource.data.name == resource.data.name
+          && request.resource.data.inviteCode == resource.data.inviteCode
+        )
+      );
+
+      match /transactions/{txId} {
+        allow read: if isHouseholdMember(householdId);
+        allow create: if isHouseholdMember(householdId)
+          && request.resource.data.createdBy == request.auth.uid;
+        allow update, delete: if isHouseholdMember(householdId)
+          && resource.data.createdBy == request.auth.uid;
+      }
+    }
+  }
+}
